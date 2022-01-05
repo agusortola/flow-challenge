@@ -1,6 +1,8 @@
-import { VStack, Text, HStack } from "@chakra-ui/react";
+import { VStack, Text, HStack, Box } from "@chakra-ui/react";
+import WeatherNow from "./WeatherNow";
+import WeatherWeek from "./WeatherWeek";
 
-const WeatherContainer = () => {
+const WeatherContainer = ( ) => {
   const dummyData = {
     header: "Right now in",
     city: "Buenos Aires",
@@ -18,50 +20,6 @@ const WeatherContainer = () => {
     base: "https://openweathermap.org/data/2.5/",
   };
 
-  const WeatherNow = () => {
-    return (
-      <>
-        <HStack>
-          <Text fontSize={20} fontWeight={500} color="white">
-            {dummyData.header}
-          </Text>
-        </HStack>
-        <HStack>
-          <Text fontSize={40} fontWeight="bold" color="white">
-            {dummyData.city}
-          </Text>
-        </HStack>
-        <HStack>
-          <Text fontSize={20} fontWeight="bold" color="white">
-            {dummyData.status}
-          </Text>
-        </HStack>
-        <HStack spacing={20}>
-        <VStack>
-          <Text fontSize={100} fontWeight={900} color="white">
-            X
-          </Text>
-        </VStack>
-        <VStack>
-          <Text fontSize={120} fontWeight={900} color="white">
-            {dummyData.temperature}
-          </Text>
-        </VStack>
-        <VStack align="flex-start">
-          <Text fontSize={15} fontWeight={900} color="white">
-            {dummyData.details.vel}
-          </Text>
-          <Text fontSize={15} fontWeight={900} color="white">
-            {dummyData.details.mm}
-          </Text>
-          <Text fontSize={15} fontWeight={900} color="white">
-            {dummyData.details.hum}
-          </Text>
-        </VStack>
-      </HStack>
-      </>
-    );
-  };
 
   return (
     <VStack
@@ -72,7 +30,8 @@ const WeatherContainer = () => {
       padding={10}
       spacing={2}
     >
-      <WeatherNow />
+      <WeatherNow data={dummyData} />
+      <WeatherWeek />
     </VStack>
   );
 };
