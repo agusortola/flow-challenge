@@ -1,44 +1,44 @@
 import { VStack, Text, HStack } from "@chakra-ui/react";
 
 const WeatherNow = ({ data }) => {
-    
+
     return (
       <>
         <HStack>
           <Text fontSize={16} fontWeight={500} color="white">
-            {data.header}
+            Right now in
           </Text>
         </HStack>
         <HStack>
           <Text fontSize={30} fontWeight="bold" color="white">
-            {data.city}
+            {data.name}
           </Text>
         </HStack>
         <HStack>
           <Text fontSize={18} fontWeight="bold" color="white">
-            {data.status}
+            {data.weather.main}
           </Text>
         </HStack>
         <HStack spacing={20}>
           <VStack>
             <Text fontSize={100} fontWeight={900} color="white">
-              X
+            {data.weather[0].icon}
             </Text>
           </VStack>
           <VStack>
             <Text fontSize={120} fontWeight={900} color="white">
-              {data.temperature}
+              {data.main.temp}&deg;
             </Text>
           </VStack>
           <VStack align="flex-start">
             <Text fontSize={15} fontWeight={900} color="white">
-              velocity: {data.details.vel}
+              Min: {data.main.temp_min}&deg;
             </Text>
             <Text fontSize={15} fontWeight={900} color="white">
-              mm: {data.details.mm}
+              Max: {data.main.temp_max}&deg;
             </Text>
             <Text fontSize={15} fontWeight={900} color="white">
-              humedity: {data.details.hum}
+              humidity: {data.main.humidity}%
             </Text>
           </VStack>
         </HStack>
