@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './Footer.css';
-import { Text, Link } from '@chakra-ui/react';
+import logo from "./logo.svg";
+import "./Footer.css";
+import { Text, Link, Box } from "@chakra-ui/react";
 
 function Footer() {
   return (
-    <div className="Footer">
+    <Box>
       <header className="Footer-content">
-        <Text fontWeight="bold">Made with</Text>
+        <Text fontWeight={500}>Made with</Text>
         <img src={logo} className="App-logo" alt="logo" />
-        <Text fontWeight="bold">by</Text>
+        <Text fontWeight={500}>by</Text>
         <Link
           className="Footer-link"
-          fontWeight="bold"
+          color="brand.500"
+          fontWeight={500}
           href="https://github.com/agusortola/flow-challenge"
+          isExternal
         >
           agusortola
         </Link>
       </header>
-    </div>
+    </Box>
   );
 }
 
