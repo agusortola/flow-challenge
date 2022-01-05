@@ -33,9 +33,8 @@ const WeatherContainer = (  ) => {
       fetch(`${api.base}weather?q=${city}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
         .then(result => {
-          result > 0 &&
-          setWeather(result);
-          setCity('');
+            setWeather(result);
+            setCity('');
         })
         .catch(function(e) {
           console.log('The data could not be fetched: ', e.message);

@@ -21,23 +21,26 @@ const WeatherNow = ({ data }) => {
         </HStack>
         <HStack spacing={20}>
           <VStack>
-            <Text fontSize={100} fontWeight={900} color="white">
+            <Text fontSize={60} fontWeight={900} color="white">
             {data.weather[0].icon}
+            </Text>
+            <Text fontSize={20} fontWeight={900} color="white">
+            {data.weather[0].description}
             </Text>
           </VStack>
           <VStack>
-            <Text fontSize={120} fontWeight={900} color="white">
-              {data.main.temp}&deg;
+            <Text fontSize={110} fontWeight={900} color="white">
+              {Math.round(data.main.temp)}&deg;
             </Text>
           </VStack>
           <VStack align="flex-start">
-            <Text fontSize={15} fontWeight={900} color="white">
-              Min: {data.main.temp_min}&deg;
+            <Text fontSize={15} fontWeight={500} color="white">
+              Min: {Math.round(data.main.temp_min)}&deg;
             </Text>
-            <Text fontSize={15} fontWeight={900} color="white">
-              Max: {data.main.temp_max}&deg;
+            <Text fontSize={15} fontWeight={500} color="white">
+              Max: {Math.round(data.main.temp_max)}&deg;
             </Text>
-            <Text fontSize={15} fontWeight={900} color="white">
+            <Text fontSize={15} fontWeight={500} color="white">
               humidity: {data.main.humidity}%
             </Text>
           </VStack>
