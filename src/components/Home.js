@@ -1,11 +1,12 @@
-import { Text, Link, Box, Stack } from "@chakra-ui/react";
+import { Text, Link, Box, Stack, Center } from "@chakra-ui/react";
+import Weather from "./WeatherContainer";
 
 const Home = () => {
    
     return ( 
-        <Box w='100%' height='95vh' backgroundColor='brand.100'>
-            
-        </Box>
+        <Center w='100%' height='95vh' backgroundColor='brand.900' borderBottom='1px solid white'>
+            <Weather />
+        </Center>
      );
 }
  
