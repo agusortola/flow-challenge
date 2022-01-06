@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import logo from "../logo.svg";
 import "./Footer.css";
 import { Text, Link, Box } from "@chakra-ui/react";
 
