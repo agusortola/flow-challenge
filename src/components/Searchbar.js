@@ -1,6 +1,6 @@
 import { HStack, Select, Text, VStack } from "@chakra-ui/react";
 
-const Searchbar = ({ fetchWeather }) => {
+const Searchbar = ({ fetchWeather, fetchWeekForecast }) => {
 
   const cities = [
     {
@@ -28,6 +28,7 @@ const Searchbar = ({ fetchWeather }) => {
   const handleChange = e => {
     let city = e.target.value
     fetchWeather(city)
+    fetchWeekForecast(city)
   }
 
   return (
@@ -42,7 +43,7 @@ const Searchbar = ({ fetchWeather }) => {
           size="md"
           onChange={handleChange}
         >
-         { cities.map((city) => <option value={city.id}>{city.name}</option>) }
+         { cities.map((city) => <option key={city.id} value={city.id}>{city.name}</option>) }
         </Select>
         
       </VStack>

@@ -21,9 +21,19 @@ const WeatherNow = ({ data }) => {
         </HStack>
         <HStack spacing={20}>
           <VStack>
-            <Text fontSize={60} fontWeight={900} color="white">
+          <img
+                className="Forecast__weather-icon"
+                width="100" height="100"
+                src={
+                  "https://openweathermap.org/img/wn/" +
+                  data.weather[0].icon +
+                  ".png"
+                }
+                alt={data.weather[0].icon}
+              />
+            {/* <Text fontSize={60} fontWeight={900} color="white">
             {data.weather[0].icon}
-            </Text>
+            </Text> */}
             <Text fontSize={20} fontWeight={900} color="white">
             {data.weather[0].description}
             </Text>
