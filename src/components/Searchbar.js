@@ -1,29 +1,55 @@
-import { HStack, Input, Text, VStack } from "@chakra-ui/react";
+import { HStack, Select, Text, VStack } from "@chakra-ui/react";
 
-const Searchbar = ( {city, setCity, search} ) => {
+const Searchbar = ({ fetchWeather }) => {
+
+  const cities = [
+    {
+      name:'London',
+      id:   2643743
+    },
+    {
+      name:'Rio de Janeiro',
+      id:   3451190
+    },
+    {
+      name:'New York',
+      id:   5128581
+    },
+    {
+      name:'Zambia',
+      id:   895949
+    },
+    {
+      name:'Alaska',
+      id:   5879092
+    },
+  ]
+
+  const handleChange = e => {
+    let city = e.target.value
+    fetchWeather(city)
+  }
 
   return (
     <HStack w="100%" justify="space-between" paddingBottom={5}>
       <VStack>
-        <Input
-          variant="flushed"
+        <Select
+          placeholder="Choose a city"
           color="white"
-          width="100%"
-          alignSelf="start"
-          marginLeft="2%"
-          placeholder="Search a city..."
+          fontWeight={500}
+          variant="unstyled"
           focusBorderColor="white"
-          _placeholder={{ color: "white" }}
-          onChange={(e) => setCity(e.target.value)}
-          value={city}
-          onKeyPress={search}
-        />
+          size="md"
+          onChange={handleChange}
+        >
+         { cities.map((city) => <option value={city.id}>{city.name}</option>) }
+        </Select>
+        
       </VStack>
       <VStack>
-          <HStack>
+        <HStack>
           <Text>icon</Text>
-          <Text>icon</Text>
-          </HStack>
+        </HStack>
       </VStack>
     </HStack>
   );

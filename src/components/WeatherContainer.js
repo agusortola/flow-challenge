@@ -11,7 +11,6 @@ const WeatherContainer = (  ) => {
     base: "https://api.openweathermap.org/data/2.5/",
   };
 
-  const [city, setCity] = useState('');
   const [weather, setWeather] = useState({
     name: "Buenos Aires",
     main:{
@@ -26,21 +25,20 @@ const WeatherContainer = (  ) => {
       icon: 'X'
     }]
   });
-
   
-  const search = evt => {
-    if (evt.key === "Enter") {
-      fetch(`${api.base}weather?q=${city}&units=metric&APPID=${api.key}`)
+  const fetchWeather = city => {
+      fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
         .then(res => res.json())
-        .then(result => {
-            setWeather(result);
-            setCity('');
-        })
-        .catch(function(e) {
-          console.log('The data could not be fetched: ', e.message);
-        }); 
-    }
+        .then(result => result.cod == 200 ? setWeather(result) : console.log(result))
+        .catch(error => console.log( error.message));
   }
+
+  //TODO fetch week forecast data
+  // const fetchWeekForecast = () => {
+  //   fetch(`${api.base}forecast?q=${city}&APPID=${api.key}`)
+  //   .then(res => res.json())
+  // }
+  // data.filter((value, index) => index == 0 || index % 8 == 0)
 
   return (
     <VStack
@@ -50,7 +48,7 @@ const WeatherContainer = (  ) => {
       padding={10}
       spacing={4}
     >
-      <Searchbar city={city} setCity={setCity} search={search}/>
+      <Searchbar fetchWeather={fetchWeather}/>
       <WeatherNow data={weather} />
       <WeatherWeek />
     </VStack>
