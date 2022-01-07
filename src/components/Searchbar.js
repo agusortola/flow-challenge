@@ -1,7 +1,12 @@
-import { HStack, Select, Text, VStack } from "@chakra-ui/react";
+import { useState } from 'react';
+import { HStack, Select, Text, VStack, Button} from "@chakra-ui/react";
+import "./searchbar.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 
-const Searchbar = ({ fetchWeather, fetchWeekForecast }) => {
+const Searchbar = ({ fetchWeather, fetchWeekForecast, setGeolocation, geolocation }) => {
 
+  const [placeholder, setPlaceholder ] = useState('Choose a city')
   const cities = [
     {
       name:'London',
@@ -29,27 +34,33 @@ const Searchbar = ({ fetchWeather, fetchWeekForecast }) => {
     let city = e.target.value
     fetchWeather(city)
     fetchWeekForecast(city)
+    setPlaceholder('Choose a city')
+  
+  }
+
+  const handleClick = () => {
+    setGeolocation(!geolocation)
+    setPlaceholder('My location')
   }
 
   return (
     <HStack w="100%" justify="space-between" paddingBottom={5}>
-      <VStack>
-        <Select
-          placeholder="Choose a city"
+      <VStack fontWeight={500}>
+        <select
+          id="select"
           color="white"
-          fontWeight={500}
-          variant="unstyled"
-          focusBorderColor="white"
-          size="md"
           onChange={handleChange}
         >
-         { cities.map((city) => <option key={city.id} value={city.id}>{city.name}</option>) }
-        </Select>
+          <option value="">{placeholder}</option>
+         { cities.map((city) => <option key={city.id} value={city.id} id="option" >{city.name}</option>) }
+        </select>
         
       </VStack>
       <VStack>
         <HStack>
-          <Text>icon</Text>
+          <Button variant='unstyled' onClick={handleClick}>
+            <FontAwesomeIcon icon={faLocationArrow} color='white' />
+          </Button>
         </HStack>
       </VStack>
     </HStack>
