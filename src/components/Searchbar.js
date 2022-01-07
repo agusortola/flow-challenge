@@ -4,7 +4,7 @@ import "./searchbar.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 
-const Searchbar = ({ fetchWeather, fetchWeekForecast, setGeolocation, geolocation }) => {
+const Searchbar = ({ setCity, fetchWeather, fetchWeekForecast, setGeolocation, geolocation }) => {
 
   const [placeholder, setPlaceholder ] = useState('Choose a city')
   const cities = [
@@ -32,8 +32,7 @@ const Searchbar = ({ fetchWeather, fetchWeekForecast, setGeolocation, geolocatio
 
   const handleChange = e => {
     let city = e.target.value
-    fetchWeather(city)
-    fetchWeekForecast(city)
+    setCity(city)
     setPlaceholder('Choose a city')
   
   }
