@@ -14,6 +14,7 @@ const WeatherContainer = () => {
 
   const [weather, setWeather] = useState();
   const [forecast, setForecast] = useState();
+  const [ geolocation, setGeolocation ] = useState(false)
 
   const fetchWeather = (city) => {
     fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
@@ -53,8 +54,7 @@ const WeatherContainer = () => {
           result.cod == 200 ? setWeather(result) : console.log(result)
         )
         .catch((error) => console.log(error.message));
-      console.log(position.coords.latitude, position.coords.longitude);
-
+        
       fetch(
         `${api.base}forecast?lat=${userLat}&lon=${userLon}&units=metric&APPID=${api.key}`
       )
@@ -65,7 +65,8 @@ const WeatherContainer = () => {
             : console.log(result).catch((error) => console.log(error.message));
         });
     });
-  }, []);
+  }, [geolocation]);
+
   return (
     <VStack
       w="50%"
@@ -77,6 +78,8 @@ const WeatherContainer = () => {
       <Searchbar
         fetchWeather={fetchWeather}
         fetchWeekForecast={fetchWeekForecast}
+        geolocation={geolocation}
+        setGeolocation={setGeolocation}
       />
       {weather && <WeatherNow data={weather} />}
       {forecast && <WeekForecast data={forecast} />}
