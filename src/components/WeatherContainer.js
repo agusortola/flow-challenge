@@ -4,6 +4,7 @@ import WeatherNow from "./WeatherNow";
 import WeekForecast from "./WeekForecast";
 import "./weather.css";
 import Searchbar from "./Searchbar";
+
 const WeatherContainer = () => {
   const api = {
     key: "b7c216f898e3eea9fe6543e67e3443b7",
@@ -30,23 +31,31 @@ const WeatherContainer = () => {
   const fetchWeather = (city) => {
     fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
       .then((res) => res.json())
-      .then((result) =>  result.cod == 200 ? setWeather(result) : console.log(result))
+      .then((result) =>
+        result.cod == 200 
+        ? setWeather(result) 
+        : console.log(result)
+      )
       .catch((error) => console.log(error.message));
   };
 
   const fetchWeekForecast = (city) => {
     fetch(`${api.base}forecast?id=${city}&units=metric&APPID=${api.key}`)
       .then((res) => res.json())
-      .then((result) => { result.cod == 200 ? extractSingleRecordPerDay(result) : console.log(result)
+      .then((result) =>
+        result.cod == 200
+          ? setForecast(extractSingleRecordPerDay(result))
+          : console.log(result)
+      )
       .catch((error) => console.log(error.message));
-      });
   };
 
   const extractSingleRecordPerDay = (forecast) => {
-    let fiveDaysFilter = forecast.list.filter(
-      (value, index) => index === 0 || index % 8 === 0);
-    setForecast(fiveDaysFilter);
-  }
+    let perDayFilter = forecast.list.filter(
+      (value, index) => index === 0 || index % 8 === 0
+    );
+    return perDayFilter;
+  };
 
   return (
     <VStack

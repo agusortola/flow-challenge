@@ -3,9 +3,9 @@ import { VStack, HStack, Text, StackDivider } from "@chakra-ui/react";
 const WeekForecast = ({ data }) => {
   return (
     <HStack>
-      {data.map((day) => {
+      {data.map((day, index) => {
         return (
-          <VStack bg="whiteAlpha.200" h={40} w={40} padding={5} spacing={2} borderRadius={10}>
+          <VStack key={index} bg="whiteAlpha.200" h={40} w={40} padding={5} spacing={2} borderRadius={10}>
             <HStack>
               <img
                 className="Forecast__weather-icon"
