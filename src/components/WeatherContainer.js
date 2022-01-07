@@ -1,11 +1,11 @@
-import { VStack} from "@chakra-ui/react";
-import { useState } from 'react'
+import { VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import WeatherNow from "./WeatherNow";
-import WeatherWeek from "./WeatherWeek";
-import "./weather.css"
+import WeekForecast from "./WeekForecast";
+import "./weather.css";
 import Searchbar from "./Searchbar";
-const WeatherContainer = (  ) => {
 
+const WeatherContainer = () => {
   const api = {
     key: "b7c216f898e3eea9fe6543e67e3443b7",
     base: "https://api.openweathermap.org/data/2.5/",
@@ -13,32 +13,49 @@ const WeatherContainer = (  ) => {
 
   const [weather, setWeather] = useState({
     name: "Buenos Aires",
-    main:{
-      temp: '30',
-      temp_min: '15',
-      temp_max: '32',
-      humidity: '60',
-
+    main: {
+      temp: "30",
+      temp_min: "15",
+      temp_max: "32",
+      humidity: "60",
     },
-    weather:[{
-      main: 'Sunny',
-      icon: 'X'
-    }]
+    weather: [
+      {
+        main: "Sunny",
+        icon: "X",
+      },
+    ],
   });
-  
-  const fetchWeather = city => {
-      fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
-        .then(res => res.json())
-        .then(result => result.cod == 200 ? setWeather(result) : console.log(result))
-        .catch(error => console.log( error.message));
-  }
+  const [forecast, setForecast] = useState();
 
-  //TODO fetch week forecast data
-  // const fetchWeekForecast = () => {
-  //   fetch(`${api.base}forecast?q=${city}&APPID=${api.key}`)
-  //   .then(res => res.json())
-  // }
-  // data.filter((value, index) => index == 0 || index % 8 == 0)
+  const fetchWeather = (city) => {
+    fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
+      .then((res) => res.json())
+      .then((result) =>
+        result.cod == 200 
+        ? setWeather(result) 
+        : console.log(result)
+      )
+      .catch((error) => console.log(error.message));
+  };
+
+  const fetchWeekForecast = (city) => {
+    fetch(`${api.base}forecast?id=${city}&units=metric&APPID=${api.key}`)
+      .then((res) => res.json())
+      .then((result) =>
+        result.cod == 200
+          ? setForecast(extractSingleRecordPerDay(result))
+          : console.log(result)
+      )
+      .catch((error) => console.log(error.message));
+  };
+
+  const extractSingleRecordPerDay = (forecast) => {
+    let perDayFilter = forecast.list.filter(
+      (value, index) => index === 0 || index % 8 === 0
+    );
+    return perDayFilter;
+  };
 
   return (
     <VStack
@@ -48,9 +65,12 @@ const WeatherContainer = (  ) => {
       padding={10}
       spacing={4}
     >
-      <Searchbar fetchWeather={fetchWeather}/>
+      <Searchbar
+        fetchWeather={fetchWeather}
+        fetchWeekForecast={fetchWeekForecast}
+      />
       <WeatherNow data={weather} />
-      <WeatherWeek />
+      {forecast && <WeekForecast data={forecast} />}
     </VStack>
   );
 };
