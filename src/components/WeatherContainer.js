@@ -43,7 +43,7 @@ const WeatherContainer = () => {
     let perDayFilter = forecast.list.filter(
       (value, index) => index === 0 || index % 8 === 0
     );
-    return perDayFilter;
+    return setForecast(perDayFilter);
   };
   
   useGeolocation(api, extractSingleRecordPerDay, geolocation, setWeather)
