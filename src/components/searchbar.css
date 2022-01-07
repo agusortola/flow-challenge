@@ -1,0 +1,7 @@
+select#select {
+  color: white;
+  background-color: #86cced;
+  border:'none';
+  outline:0;
+}
+

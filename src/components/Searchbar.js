@@ -1,4 +1,5 @@
 import { HStack, Select, Text, VStack } from "@chakra-ui/react";
+import "./searchbar.css"
 
 const Searchbar = ({ fetchWeather, fetchWeekForecast }) => {
 
@@ -33,18 +34,16 @@ const Searchbar = ({ fetchWeather, fetchWeekForecast }) => {
 
   return (
     <HStack w="100%" justify="space-between" paddingBottom={5}>
-      <VStack>
-        <Select
+      <VStack fontWeight={500}>
+        <select
+        
+          id="select"
           placeholder="Choose a city"
           color="white"
-          fontWeight={500}
-          variant="unstyled"
-          focusBorderColor="white"
-          size="md"
           onChange={handleChange}
         >
-         { cities.map((city) => <option key={city.id} value={city.id}>{city.name}</option>) }
-        </Select>
+         { cities.map((city) => <option key={city.id} value={city.id} id="option" style={{background:"#86cced"}}>{city.name}</option>) }
+        </select>
         
       </VStack>
       <VStack>
