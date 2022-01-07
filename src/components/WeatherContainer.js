@@ -1,10 +1,10 @@
 import { VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import WeatherNow from "./WeatherNow";
 import WeekForecast from "./WeekForecast";
 import "./weather.css";
 import Searchbar from "./Searchbar";
-import { geolocated } from "react-geolocated";
+import { useGeolocation } from "../useGeolocation";
 
 const WeatherContainer = () => {
   const api = {
@@ -18,55 +18,32 @@ const WeatherContainer = () => {
 
   const fetchWeather = (city) => {
     fetch(`${api.base}weather?id=${city}&units=metric&APPID=${api.key}`)
-      .then((res) => res.json())
-      .then((result) =>
-        result.cod == 200 ? setWeather(result) : console.log(result)
-      )
-      .catch((error) => console.log(error.message));
+    .then((res) => res.json())
+    .then((result) =>
+      result.cod == 200 ? setWeather(result) : console.log(result)
+    )
+    .catch((error) => console.log(error.message));
   };
-
+  
   const fetchWeekForecast = (city) => {
     fetch(`${api.base}forecast?id=${city}&units=metric&APPID=${api.key}`)
-      .then((res) => res.json())
-      .then((result) => {
-        result.cod == 200
-          ? extractSingleRecordPerDay(result)
-          : console.log(result).catch((error) => console.log(error.message));
-      });
+    .then((res) => res.json())
+    .then((result) => {
+      result.cod == 200
+        ? extractSingleRecordPerDay(result)
+        : console.log(result).catch((error) => console.log(error.message));
+    });
   };
-
+  
   const extractSingleRecordPerDay = (forecast) => {
     let fiveDaysFilter = forecast.list.filter(
       (value, index) => index === 0 || index % 8 === 0
-    );
-    setForecast(fiveDaysFilter);
-  };
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let userLat = position.coords.latitude;
-      let userLon = position.coords.longitude;
-      fetch(
-        `${api.base}weather?lat=${userLat}&lon=${userLon}&units=metric&APPID=${api.key}`
-      )
-        .then((res) => res.json())
-        .then((result) =>
-          result.cod == 200 ? setWeather(result) : console.log(result)
-        )
-        .catch((error) => console.log(error.message));
-        
-      fetch(
-        `${api.base}forecast?lat=${userLat}&lon=${userLon}&units=metric&APPID=${api.key}`
-      )
-        .then((res) => res.json())
-        .then((result) => {
-          result.cod == 200
-            ? extractSingleRecordPerDay(result)
-            : console.log(result).catch((error) => console.log(error.message));
-        });
-    });
-  }, [geolocation]);
-
+      );
+      setForecast(fiveDaysFilter);
+    };
+    
+   useGeolocation(api, extractSingleRecordPerDay, geolocation, setWeather)
+    
   return (
     <VStack
       w="50%"
