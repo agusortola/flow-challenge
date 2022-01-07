@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useGeolocation = (api, extractSingleRecordPerDay, geolocation, setWeather) => {
+export const useGeolocation = (api, extractSingleRecordPerDay, geolocation, setWeather, setForecast) => {
       useEffect(()=>{
         navigator.geolocation.getCurrentPosition((position) => {
             let userLat = position.coords.latitude;
@@ -20,7 +20,7 @@ export const useGeolocation = (api, extractSingleRecordPerDay, geolocation, setW
               .then((res) => res.json())
               .then((result) => {
                 result.cod == 200
-                  ? extractSingleRecordPerDay(result)
+                  ? setForecast(extractSingleRecordPerDay(result))
                   : console.log(result).catch((error) => console.log(error.message));
               });
           });

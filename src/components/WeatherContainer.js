@@ -27,7 +27,7 @@ const WeatherContainer = () => {
       return perDayFilter;
     };
     
-    useGeolocation(api, extractSingleRecordPerDay, geolocation, setWeather)
+    useGeolocation(api, extractSingleRecordPerDay, geolocation, setWeather, setForecast)
     useWeather(api, city, setWeather)
     useForecast(api, city, setForecast, extractSingleRecordPerDay)
 
