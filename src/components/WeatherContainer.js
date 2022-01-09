@@ -23,11 +23,19 @@ const WeatherContainer = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let userLat = position.coords.latitude;
       let userLon = position.coords.longitude;
-      get(`weather?lat=${userLat}&lon=${userLon}&units=metric`, setWeather, errorCallback);
-      get(`forecast?lat=${userLat}&lon=${userLon}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+      fetchWeatherByCoordinates(userLat, userLon)
+      fetchForecastByCoordinates(userLat, userLon)
     });
   }
-
+  function fetchWeatherByCoordinates(userLat, userLon){
+    get(`weather?lat=${userLat}&lon=${userLon}&units=metric`, setWeather, errorCallback);
+    
+  }
+  
+  function fetchForecastByCoordinates(userLat, userLon){
+    get(`forecast?lat=${userLat}&lon=${userLon}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+  }
+  
   function onCityChange(city) {
     if (city !== undefined) {
       fetchWeather(city);

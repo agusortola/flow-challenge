@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { HStack, VStack, Button } from "@chakra-ui/react";
 import "./searchbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +15,7 @@ const Searchbar = ({ onCityChange, fetchGeolocation }) => {
     <HStack w="100%" justify="space-between" paddingBottom={5}>
       <VStack fontWeight={500}>
         <select id="select" color="white" onChange={handleChange}>
-          <option>Choose a city</option>
+          <option value="" selected hidden color="white">Choose a city</option>
           {cities?.map((city) => (
             <option key={city.id} value={city.id} id="option">
               {city.name}
