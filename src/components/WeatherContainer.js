@@ -38,16 +38,16 @@ const WeatherContainer = () => {
   
   function onCityChange(city) {
     if (city !== undefined) {
-      fetchWeather(city);
-      fetchForecast(city);
+      fetchWeatherByCity(city);
+      fetchForecastByCity(city);
     }
   }
 
-  function fetchWeather(city) {
+  function fetchWeatherByCity(city) {
     get(`weather?id=${city}&units=metric`, setWeather, errorCallback);
   }
 
-  function fetchForecast(city) {
+  function fetchForecastByCity(city) {
     get(`forecast?id=${city}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
   }
 
