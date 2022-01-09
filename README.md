@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Intro
+WeatherFlow es una App hecha con React para ver el clima del día y el pronóstico semanal, tanto en la ubicación geográfica del usuario, como en otras 5 ciudades preseleccionadas.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Deploy
 
-## Available Scripts
+Puedes ver un demo de la aplicación ingresando a [WeatherFlow](https://weatherflow.netlify.app/)
 
-In the project directory, you can run:
+## Cómo instalar y levantar el proyecto de modo local
 
-### `npm start`
+En primer lugar, debes clonar el proyecto.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Luego, como se trata de una React App, instala npm para poder iniciarlo.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1- Instalar npm 
+```bash
+npm install
+```
 
-### `npm test`
+2- Levantar el proyecto
+```bash
+npm start
+```
+## Uso
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Una vez que inició la aplicación, debes aceptar la alerta que muestra el navegador para poder acceder a tu ubicación geográfica. De ese modo, podrás ver la temperatura en tu zona.
 
-### `npm run build`
+Luego, puedes desplegar las opciones de ciudades ubicadas arriba a la izquierda, para ver el clima actual y de los próximos cinco días en cada una de ellas.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Decisiones
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1- La primer decisión que tomé fue que, al iniciar la app, se vea el clima resultante de la geolocalización. Me pareció que esa información es la que el usuario quiere obtener al usar WeatherFlow.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2- Decidí también que se renderice un sólo item por día, con la información más importante, en el pronóstico de los "próximos 5 días".
 
-### `npm run eject`
+3- Uso de librerías: 
+    -Chakra UI para la interfaz y los estilos de casi todos los componentes.
+    -react-geolocated para obtener la ubicación del usuario.
+    -moment para las fechas.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4- Decidí desarrollar una alerta genérica por errores, ya que no tenía un caso de uso de error específico.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5- Elegí utilizar el ID de las ciudades, porque resulta mas seguro a futuro en términos de escalabilidad, y porque con los nombres de las ciudades quedarían caracteres especiales en la URL de las llamadas a la API.
+    
