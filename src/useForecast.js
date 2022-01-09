@@ -3,6 +3,7 @@ import { useEffect } from "react";
 export const useForecast = (api, city, setForecast, extractSingleRecordPerDay) => {
 
     useEffect(()=> {
+      city !== undefined &&
         fetch(`${api.base}forecast?id=${city}&units=metric&APPID=${api.key}`)
         .then((res) => res.json())
         .then((result) =>
