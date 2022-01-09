@@ -1,36 +1,56 @@
 import { VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WeatherNow from "./WeatherNow";
 import WeekForecast from "./WeekForecast";
 import "./weather.css";
 import Searchbar from "./Searchbar";
-import { useGeolocation } from "../useGeolocation";
-import { useWeather } from "../useWeather";
-import { useForecast } from "../useForecast";
+import { get } from "../utils/restClient";
+import ErrorModal from "../utils/ErrorModal";
 
 const WeatherContainer = () => {
-  const api = {
-    key: "e9c3093e11a466030601670b5ad691ef",
-    base: "https://api.openweathermap.org/data/2.5/",
-  };
-
   const [weather, setWeather] = useState();
   const [forecast, setForecast] = useState();
-  const [city, setCity] = useState();
-  const [ geolocation, setGeolocation ] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  
-  const extractSingleRecordPerDay = (forecast) => {    
+  const extractSingleRecordPerDay = (forecast) => {
     let perDayFilter = forecast.list.filter(
       (value, index) => index === 0 || index % 8 === 0
-      );
-      return perDayFilter;
-    };
-    
-    useGeolocation(api, extractSingleRecordPerDay, geolocation, setWeather, setForecast)
-    useWeather(api, city, setWeather)
-    useForecast(api, city, setForecast, extractSingleRecordPerDay)
+    );
+    return perDayFilter;
+  };
 
+  function fetchGeolocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let userLat = position.coords.latitude;
+      let userLon = position.coords.longitude;
+      get(`weather?lat=${userLat}&lon=${userLon}&units=metric`, setWeather, errorCallback);
+      get(`forecast?lat=${userLat}&lon=${userLon}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+    });
+  }
+
+  function onCityChange(city) {
+    if (city !== undefined) {
+      fetchWeather(city);
+      fetchForecast(city);
+    }
+  }
+
+  function fetchWeather(city) {
+    get(`weather?id=${city}&units=metric`, setWeather, errorCallback);
+  }
+
+  function fetchForecast(city) {
+    get(`forecast?id=${city}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+  }
+
+  function errorCallback(error) {
+    console.log(error); // para debug
+    setModalIsOpen(true)
+  }
+
+  useEffect(() => {
+    fetchGeolocation();
+  }, []);
 
   return (
     <VStack
@@ -41,12 +61,12 @@ const WeatherContainer = () => {
       spacing={4}
     >
       <Searchbar
-        setCity={setCity}
-        geolocation={geolocation}
-        setGeolocation={setGeolocation}
+        onCityChange={onCityChange}
+        fetchGeolocation={fetchGeolocation}
       />
       {weather && <WeatherNow data={weather} />}
       {forecast && <WeekForecast data={forecast} />}
+      {modalIsOpen && <ErrorModal setModalIsOpen={setModalIsOpen} />}
     </VStack>
   );
 };
