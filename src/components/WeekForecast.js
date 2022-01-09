@@ -1,12 +1,12 @@
-import { VStack, HStack, Text, StackDivider } from "@chakra-ui/react";
+import { Stack, VStack, HStack, Text, StackDivider } from "@chakra-ui/react";
 
 const WeekForecast = ({ data }) => {
   return (
-    <HStack>
+    <Stack direction={{ base: "column", md: "row" }}>
       {data?.map((day, index) => {
         return (
-          <VStack key={index} bg="whiteAlpha.200" h={40} w={40} padding={5} spacing={2} borderRadius={10}>
-            <HStack>
+          <Stack direction={{ base: "row", md: "column" }} key={index} bg="whiteAlpha.200" h={40} padding={5} spacing={2} borderRadius={10}>
+            <Stack direction={{ base: "column", md: "row" }}>
               <img
                 className="Forecast__weather-icon"
                 src={
@@ -19,23 +19,23 @@ const WeekForecast = ({ data }) => {
               <Text fontSize={30} fontWeight={700} color="white">
                 {Math.round(day?.main?.temp)}&deg;
               </Text>
-            </HStack>
-            <HStack>
+            </Stack>
+            <HStack justify='center'>
               <Text fontSize={16} fontWeight={300} color="white">{day?.weather[0].description}</Text>
             </HStack>
-            <HStack divider={<StackDivider />}>
+            <Stack direction={{ base: "row", md: "row" }} divider={ <StackDivider />} justify='center'>
               <Text fontSize={20} fontWeight={300} color="white">
                 {Math.round(day?.main?.temp_min)}&deg;
               </Text>
               <Text fontSize={20} fontWeight={500} color="white">
                 {Math.round(day?.main?.temp_max)}&deg;
               </Text>
-            </HStack>
+            </Stack>
             <Text>{day?.main?.description}</Text>
-          </VStack>
+          </Stack >
         );
       })}
-    </HStack>
+    </Stack>
   );
 };
 
