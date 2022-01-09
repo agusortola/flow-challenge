@@ -34,7 +34,7 @@ const WeatherContainer = () => {
 
   return (
     <VStack
-      w="50%"
+      w={{ base: '90%', lg:"90%" , xl: '70%', '2xl':'60%' }}
       className="glass"
       borderRadius={40}
       padding={10}
