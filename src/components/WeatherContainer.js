@@ -65,7 +65,7 @@ const WeatherContainer = () => {
       w={{ base: '90%', lg:"90%" , xl: '70%', '2xl':'60%' }}
       className="glass"
       borderRadius={40}
-      padding={5}
+      padding={8}
       spacing={2}
     >
       <Searchbar
