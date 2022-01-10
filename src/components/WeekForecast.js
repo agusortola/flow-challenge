@@ -1,11 +1,13 @@
 import { Stack, VStack, HStack, Text, StackDivider } from "@chakra-ui/react";
+import moment from "moment";
 
 const WeekForecast = ({ data }) => {
   return (
     <Stack direction={{ base: "column", md: "row" }}>
       {data?.map((day, index) => {
         return (
-          <Stack direction={{ base: "row", md: "column" }} key={index} bg="whiteAlpha.200" h={40} padding={5} spacing={2} borderRadius={10}>
+          <Stack direction={{ base: "row", md: "column" }} key={index} bg="whiteAlpha.200" padding={5} spacing={2} borderRadius={10}>
+            <Text color="white" fontWeight={400} textAlign='center'>{moment(day?.dt_txt).format('ddd')}</Text>
             <Stack direction={{ base: "column", md: "row" }}>
               <img
                 className="Forecast__weather-icon"
