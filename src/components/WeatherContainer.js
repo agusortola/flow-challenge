@@ -6,6 +6,7 @@ import "./weather.css";
 import Searchbar from "./Searchbar";
 import { get } from "../utils/restClient";
 import ErrorModal from "../utils/ErrorModal";
+import moment from "moment";
 
 const WeatherContainer = () => {
   const [weather, setWeather] = useState();
@@ -13,11 +14,26 @@ const WeatherContainer = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const extractSingleRecordPerDay = (forecast) => {
-    let perDayFilter = forecast.list.filter(
-      (value, index) => index === 0 || index % 8 === 0
-    );
-    return perDayFilter;
+    const today = convertToDateOnly(moment());
+    const registeredDates = [today];
+    const recordsOfNextFiveDays = [];
+
+    forecast.list.forEach((record) => {
+      const recordDate = convertToDateOnly(record.dt_txt);
+      const condition = !registeredDates.some((date) => date === recordDate);
+      if (condition) {
+        recordsOfNextFiveDays.push(record);
+        registeredDates.push(recordDate);
+      }
+    });
+
+    return recordsOfNextFiveDays;
   };
+
+  function convertToDateOnly(date) {
+    let format = "YYYY-MM-DD";
+    return moment(date).format(format);
+  }
 
   function fetchGeolocation() {
     navigator.geolocation.getCurrentPosition((position) => {
