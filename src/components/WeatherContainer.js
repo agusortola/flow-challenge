@@ -13,15 +13,16 @@ const WeatherContainer = () => {
   const [forecast, setForecast] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const extractSingleRecordPerDay = (forecast) => {
+  const extractRecordOfNextFiveDays = (forecast) => {
     const today = convertToDateOnly(moment());
     const registeredDates = [today];
     const recordsOfNextFiveDays = [];
 
     forecast.list.forEach((record) => {
       const recordDate = convertToDateOnly(record.dt_txt);
-      const condition = !registeredDates.some((date) => date === recordDate);
-      if (condition) {
+      const isRecordFromNextDay = registeredDates.every( date => date !== recordDate );
+
+      if (isRecordFromNextDay) {
         recordsOfNextFiveDays.push(record);
         registeredDates.push(recordDate);
       }
@@ -39,19 +40,26 @@ const WeatherContainer = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let userLat = position.coords.latitude;
       let userLon = position.coords.longitude;
-      fetchWeatherByCoordinates(userLat, userLon)
-      fetchForecastByCoordinates(userLat, userLon)
+      fetchWeatherByCoordinates(userLat, userLon);
+      fetchForecastByCoordinates(userLat, userLon);
     });
   }
-  function fetchWeatherByCoordinates(userLat, userLon){
-    get(`weather?lat=${userLat}&lon=${userLon}&units=metric`, setWeather, errorCallback);
-    
+  function fetchWeatherByCoordinates(userLat, userLon) {
+    get(
+      `weather?lat=${userLat}&lon=${userLon}&units=metric`,
+      setWeather,
+      errorCallback
+    );
   }
-  
-  function fetchForecastByCoordinates(userLat, userLon){
-    get(`forecast?lat=${userLat}&lon=${userLon}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+
+  function fetchForecastByCoordinates(userLat, userLon) {
+    get(
+      `forecast?lat=${userLat}&lon=${userLon}&units=metric`,
+      (result) => setForecast(extractRecordOfNextFiveDays(result)),
+      errorCallback
+    );
   }
-  
+
   function onCityChange(city) {
     if (city !== undefined) {
       fetchWeatherByCity(city);
@@ -64,12 +72,16 @@ const WeatherContainer = () => {
   }
 
   function fetchForecastByCity(city) {
-    get(`forecast?id=${city}&units=metric`, (result) => setForecast(extractSingleRecordPerDay(result)), errorCallback);
+    get(
+      `forecast?id=${city}&units=metric`,
+      (result) => setForecast(extractRecordOfNextFiveDays(result)),
+      errorCallback
+    );
   }
 
   function errorCallback(error) {
     console.log(error); // para debug
-    setModalIsOpen(true)
+    setModalIsOpen(true);
   }
 
   useEffect(() => {
@@ -78,7 +90,7 @@ const WeatherContainer = () => {
 
   return (
     <VStack
-      w={{ base: '90%', lg:"90%" , xl: '70%', '2xl':'60%' }}
+      w={{ base: "90%", lg: "90%", xl: "70%", "2xl": "60%" }}
       className="glass"
       borderRadius={40}
       padding={8}
